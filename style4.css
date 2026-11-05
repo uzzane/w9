@@ -1,0 +1,397 @@
+/* 1. 기본 설정: Box Model */
+@font-face {
+  font-family: "MainFont1";
+  src: url("./메인타이포2.ttf") format("truetype");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* 2. 데스크톱: 12열 Grid */
+.poster {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 1.5vw;
+  min-height: 100vh;
+  padding: clamp(20px, 3vw, 42px);
+  overflow: hidden;
+  background: #000;
+}
+
+/* 별 배경: Position */
+.poster::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./배경.png") center / cover no-repeat;
+  opacity: 0.82;
+}
+
+.poster > * {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+/* 3. 상단과 하단: Flexbox */
+.poster-top,
+.poster-bottom {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.poster-top {
+  grid-row: 1;
+  align-items: start;
+  font-size: 0.72rem;
+}
+
+.poster-top strong {
+  font-size: 1rem;
+  line-height: 0.9;
+  text-align: right;
+}
+
+.poster-bottom {
+  grid-row: 4;
+  align-items: end;
+  gap: 1rem;
+}
+
+.event-date,
+.event-location {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-date {
+  line-height: 0.96;
+}
+
+.event-date strong:first-child {
+  font-size: clamp(2.5rem, 4.2vw, 4.8rem);
+}
+
+.event-date strong:last-child {
+  font-size: clamp(2rem, 3.8vw, 4.2rem);
+}
+
+.event-location {
+  gap: 0.3rem;
+  align-items: end;
+  font-size: 0.7rem;
+}
+
+/* 4. 메인 타이틀 */
+.poster-title {
+  grid-column: 1 / 9;
+  grid-row: 2;
+  align-self: start;
+  z-index: 3;
+}
+
+.poster-title h1 {
+  margin: 0;
+  font-family: "MainFont1", sans-serif;
+  font-size: clamp(5.2rem, 9vw, 10rem);
+  line-height: 0.9;
+}
+
+.poster-title span {
+  display: block;
+}
+.italic-title {
+  font-style: italic;
+}
+
+/* 5. 프로그램: Stack 형태 */
+.program {
+  grid-column: 11 / 13;
+  grid-row: 2;
+  z-index: 4;
+  padding-left: 0.8rem;
+  border-left: 1px solid #aaa;
+}
+
+.program h2 {
+  margin: 0 0 0.85rem;
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+}
+
+.program ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.program li {
+  font-size: clamp(0.62rem, 0.85vw, 0.85rem);
+  font-weight: bold;
+}
+
+.program small {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.87em;
+  font-weight: normal;
+}
+
+/* 6. 메인 그래픽: Flexbox + Position */
+.poster-visual {
+  grid-column: 4 / 12;
+  grid-row: 2 / 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* 두 이미지의 위치 기준점 */
+.visual-stage {
+  position: relative;
+  width: min(60vw, 68vh, 760px);
+  aspect-ratio: 1;
+}
+
+/* 두 이미지를 같은 위치에 겹치기 */
+.visual-stage img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 두 번째 이미지: 뒤에 고정 */
+.graphic-back {
+  z-index: 1;
+}
+
+/* 첫 번째 이미지: 앞에서 회전 */
+.graphic-front {
+  z-index: 2;
+  transform: rotate(-8deg);
+  transform-origin: center;
+  transition: transform 0.6s ease;
+}
+
+/* 7. 슬로건과 본문: Prose */
+.poster-story {
+  grid-column: 1 / 7;
+  grid-row: 3;
+  align-self: end;
+  z-index: 3;
+}
+
+.poster-story h2 {
+  margin: 0;
+  font-family: "MainFont1", sans-serif;
+  font-size: clamp(2.3rem, 4.4vw, 4.8rem);
+  font-style: italic;
+  line-height: 0.96;
+}
+
+.description {
+  grid-column: 10 / 13;
+  grid-row: 3;
+  align-self: end;
+  z-index: 3;
+  max-width: 31ch;
+}
+
+.description p {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+/* 8. 태블릿: 8열 Grid */
+@media (max-width: 1024px) {
+  .poster {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: auto minmax(260px, 1fr) auto auto auto;
+    gap: 1.2rem;
+  }
+
+  .poster::before {
+    background-size: auto 120%;
+  }
+  .poster-title h1 {
+    font-size: clamp(5rem, 11vw, 7rem);
+  }
+
+  /* 그래픽 위치 및 회전 변경 */
+  .poster-visual {
+    grid-column: 2 / 9;
+  }
+  .visual-stage {
+    width: min(76vw, 550px);
+  }
+  .graphic-front {
+    transform: rotate(30deg);
+  }
+
+  /* 프로그램을 오른쪽 아래로 이동 */
+  .program {
+    grid-column: 6 / 9;
+    grid-row: 3;
+    align-self: end;
+    border-left: 0;
+    border-top: 1px solid #aaa;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .program ul {
+    gap: 0.3rem;
+  }
+
+  .poster-story {
+    grid-column: 1 / 6;
+  }
+  .poster-story h2 {
+    font-size: clamp(2.2rem, 5vw, 3.7rem);
+  }
+
+  /* 본문을 가로 2단으로 변경 */
+  .description {
+    grid-column: 1 / 9;
+    grid-row: 4;
+    display: flex;
+    gap: 1rem;
+    max-width: none;
+  }
+
+  .description p {
+    flex: 1;
+  }
+  .poster-bottom {
+    grid-row: 5;
+  }
+}
+
+/* 9. 모바일: 4열 Grid */
+@media (max-width: 600px) {
+  .poster {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(7, auto);
+    gap: 0.6rem;
+    padding: 1rem;
+  }
+
+  .poster::before {
+    background-size: auto 145%;
+  }
+
+  .poster-top {
+    font-size: 0.56rem;
+  }
+  .poster-top strong {
+    font-size: 0.72rem;
+  }
+
+  /* 타이틀을 가로 전체에 배치 */
+  .poster-title {
+    grid-column: 1 / 5;
+  }
+
+  .poster-title h1 {
+    font-size: clamp(3.4rem, 15.2vw, 5rem);
+    line-height: 0.84;
+  }
+
+  /* 그래픽을 타이틀 아래로 이동 */
+  .poster-visual {
+    grid-column: 1 / 5;
+    grid-row: 3;
+  }
+
+  .visual-stage {
+    width: min(85vw, 370px);
+    flex-shrink: 0;
+  }
+
+  .graphic-front {
+    transform: rotate(70deg);
+  }
+
+  /* 슬로건을 그래픽 아래에 배치 */
+  .poster-story {
+    grid-column: 1 / 5;
+    grid-row: 4;
+  }
+
+  .poster-story h2 {
+    font-size: clamp(1.45rem, 6.1vw, 2rem);
+    line-height: 1;
+  }
+
+  .poster-story br {
+    display: none;
+  }
+
+  /* 프로그램을 2열 목록으로 변경 */
+  .program {
+    grid-column: 1 / 5;
+    grid-row: 5;
+    padding: 0.45rem 0 0;
+    background: transparent;
+  }
+
+  .program h2 {
+    font-size: 0.68rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .program ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .program li {
+    font-size: 0.66rem;
+  }
+
+  /* 본문을 세로로 변경 */
+  .description {
+    grid-column: 1 / 5;
+    grid-row: 6;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .description p {
+    font-size: 0.77rem;
+    margin: 0;
+  }
+
+  /* 날짜와 장소를 맨 아래로 이동 */
+  .poster-bottom {
+    grid-row: 7;
+  }
+  .event-date strong:first-child {
+    font-size: 1.8rem;
+  }
+  .event-date strong:last-child {
+    font-size: 1.65rem;
+  }
+  .event-location {
+    font-size: 0.57rem;
+  }
+}
